@@ -1,13 +1,19 @@
 package top.wolearning.entity;
 
-public class accountEntity extends baseEntity{
-    /**
-     *
-     */
+import com.fasterxml.jackson.databind.ser.Serializers;
+
+import java.util.Date;
+
+public class UserAccount extends BaseEntity{
+
     private String name;
+
     private String role;
+
     private String password;
+
     private String nickName;
+
     private String authority;
 
     public String getName() {
@@ -15,7 +21,7 @@ public class accountEntity extends baseEntity{
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name == null ? null : name.trim();
     }
 
     public String getRole() {
@@ -23,7 +29,7 @@ public class accountEntity extends baseEntity{
     }
 
     public void setRole(String role) {
-        this.role = role;
+        this.role = role == null ? null : role.trim();
     }
 
     public String getPassword() {
@@ -31,7 +37,7 @@ public class accountEntity extends baseEntity{
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = password == null ? null : password.trim();
     }
 
     public String getNickName() {
@@ -39,7 +45,7 @@ public class accountEntity extends baseEntity{
     }
 
     public void setNickName(String nickName) {
-        this.nickName = nickName;
+        this.nickName = nickName == null ? null : nickName.trim();
     }
 
     public String getAuthority() {
@@ -47,6 +53,6 @@ public class accountEntity extends baseEntity{
     }
 
     public void setAuthority(String authority) {
-        this.authority = authority;
+        this.authority = authority == null ? null : authority.trim();
     }
 }

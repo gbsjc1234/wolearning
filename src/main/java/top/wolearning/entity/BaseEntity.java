@@ -2,7 +2,7 @@ package top.wolearning.entity;
 
 import java.sql.Timestamp;
 
-public class baseEntity {
+public class BaseEntity {
     private String refid;
     private Timestamp createTime;
     private String createRefid;
