@@ -55,4 +55,9 @@ public class UserAccount extends BaseEntity{
     public void setAuthority(String authority) {
         this.authority = authority == null ? null : authority.trim();
     }
+
+    @Override
+    public String toString() {
+        return name + " " + password + " " + nickName + " " + authority + " " + role;
+    }
 }

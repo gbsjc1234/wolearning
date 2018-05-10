@@ -19,4 +19,36 @@ public class UserAccountServiceImpl implements UserAccountService {
         acc.setPassword(password);
         return userAccountMapper.selectByNameAndPassword(acc);
     }
+
+    @Override
+    public int deleteAccount(String refid) {
+        return userAccountMapper.deleteByPrimaryKey(refid);
+    }
+
+    @Override
+    public int insertSelective(UserAccount record) {
+        return userAccountMapper.insertSelective(record);
+    }
+
+    @Override
+    public UserAccount getAccountByPrimaryKey(String primaryKey) {
+        return userAccountMapper.selectByPrimaryKey(primaryKey);
+    }
+
+    @Override
+    public int updateByPrimaryKeySelective(UserAccount record) {
+            return userAccountMapper.updateByPrimaryKeySelective(record);
+    }
+
+    @Override
+    public int updateByPrimaryKey(UserAccount record) {
+        return userAccountMapper.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public int insertAccount(UserAccount record) {
+        return userAccountMapper.insert(record);
+    }
+
+
 }

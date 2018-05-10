@@ -1,5 +1,5 @@
-create database woLearning;
-use woLearning;
+create database wolearning;
+use wolearning;
 create table user_account
 (
   refid VARCHAR (50) PRIMARY  KEY,
