@@ -1,4 +1,4 @@
-package utils;
+package top.wolearning.utils;
 
 import org.apache.commons.codec.digest.DigestUtils;
 

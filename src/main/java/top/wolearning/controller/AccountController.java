@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import top.wolearning.entity.ResultObj;
 import top.wolearning.entity.UserAccount;
 import top.wolearning.services.UserAccountService;
-import utils.EncodeAndUUID;
+import top.wolearning.utils.EncodeAndUUID;
 
 import java.sql.Timestamp;
 
