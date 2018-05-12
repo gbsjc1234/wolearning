@@ -29,8 +29,8 @@ public class AccountController {
             password = EncodeAndUUID.encodeMD5Hex(password);
             acc = userAccountService.getAccount(username, password);
         } catch(Exception ex) {
-            String errorInfo = "获取用户信息失败";
-            System.out.print(errorInfo);
+            String errorInfo = "获取用户信息失败啦";
+            System.out.println(errorInfo);
             resultObj.setCode(-1);
             resultObj.setMessage(errorInfo);
             resultObj.setData(ex.toString());
@@ -41,7 +41,7 @@ public class AccountController {
             resultObj.setData(acc);
         } else {
             String errorInfo = "用户名或密码错误";
-            System.out.print(errorInfo);
+            System.out.println(errorInfo);
             resultObj.setCode(-1);
             resultObj.setMessage("获取用户信息失败");
             resultObj.setData(errorInfo);
@@ -56,7 +56,6 @@ public class AccountController {
         int flag = -1;
         try {
             flag = userAccountService.deleteAccount(refid);
-
         } catch(Exception ex) {
             String errorInfo = "删除用户失败";
             System.out.println(errorInfo);
