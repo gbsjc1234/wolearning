@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="top.wolearning.areas.sysManage.mapper.mysql.BlogClassificationMapper" >
+    <resultMap id="articalClassification" type="top.wolearning.areas.sysManage.entity.ArticalClassification"
+               extends="baseEntityMap"
+    >
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="code" property="code" jdbcType="VARCHAR" />
+    </resultMap>
+    <resultMap id="baseEntityMap" type="top.wolearning.entity.BaseEntity">
+        <result column="refid" property="refid" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="create_refid" property="createRefid" jdbcType="VARCHAR" />
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+        <result column="modify_refid" property="modifyRefid" jdbcType="VARCHAR" />
+        <result column="deleted" property="deleted" jdbcType="BIT" />
+        <result column="version" property="version" jdbcType="TINYINT" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        refid, create_time, create_refid, modify_time, modify_refid, deleted, version,name, code
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from article_type
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from user_account
+        where refid = #{refid,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insertNodeToTree"
+            parameterMap="top.wolearning.areas.sysManage.entity.ArticalClassification">
+        insert into (
+        <include refid="Base_Column_List"/>
+        ) VALUES
+        (
+          #{refid}, #{createTime}, #{createRefid},#{modifyTime} , #{modifyRefid}, 0, 1,
+          #{name}, #{code}
+        )
+    </insert>
+
+
+</mapper>
