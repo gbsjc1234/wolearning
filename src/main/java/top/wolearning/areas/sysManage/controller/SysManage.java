@@ -2,6 +2,7 @@ package top.wolearning.areas.sysManage.controller;
 
 import com.alibaba.druid.wall.violation.ErrorCode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import top.wolearning.areas.sysManage.entity.ArticalClassification;
 import top.wolearning.areas.sysManage.services.SysManageService;
@@ -27,7 +28,21 @@ public class SysManage {
     public ResultObj addNodeToTree(@RequestParam String parentCode, @RequestParam String name) {
         ResultObj resultObj = new ResultObj();
         try {
-            String code = parentCode + "001";
+            String siblingMaxCode= sysManageService.getMaxSibling(parentCode);
+            String code = parentCode;
+            if (siblingMaxCode==null) {
+                code += "001";
+            } else {
+                Integer nowCode = Integer.parseInt(siblingMaxCode) + 1;
+                String nowCodeStr = nowCode + "";
+                if (nowCodeStr.length()==1) {
+                    nowCodeStr="00"+ nowCodeStr;
+                }
+                if (nowCodeStr.length()==2) {
+                    nowCodeStr="0"+nowCodeStr;
+                }
+                code +=nowCodeStr;
+            }
             ArticalClassification articalClassification = new ArticalClassification();
             articalClassification.setCode(code);
             articalClassification.setName(name);

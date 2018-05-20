@@ -32,6 +32,9 @@
           #{name}, #{code}
         )
     </insert>
-
+    <select id="queryMaxSiblingCode" resultType="java.lang.String">
+        select max(code) from article_type where code like concat(#{code}, '%')
+        and LENGTH(code) = #{length}
+    </select>
 
 </mapper>

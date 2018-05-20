@@ -4,4 +4,5 @@ import top.wolearning.areas.sysManage.entity.ArticalClassification;
 
 public interface SysManageService {
     void addNodeToBlogTree(ArticalClassification articalClassification);
+    String getMaxSibling(String Code);
 }

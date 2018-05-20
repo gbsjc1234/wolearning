@@ -27,6 +27,6 @@ CREATE TABLE article_type (
   version tinyint(2) DEFAULT 0,
 
   code VARCHAR (20) UNIQUE KEY NOT  NULL ,
-  name VARCHAR (50) UNIQUE KEY NOT NULL
+  name VARCHAR (50)
 )
 
