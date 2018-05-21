@@ -37,4 +37,9 @@
         and LENGTH(code) = #{length}
     </select>
 
+    <select id="selectAllNodes" resultMap="articalClassification">
+        select * from article_type WHERE
+        deleted  = 0
+    </select>
+
 </mapper>

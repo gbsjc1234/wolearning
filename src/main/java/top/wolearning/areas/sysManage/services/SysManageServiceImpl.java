@@ -7,6 +7,7 @@ import top.wolearning.areas.sysManage.entity.ArticalClassification;
 import top.wolearning.areas.sysManage.mapper.mysql.BlogClassificationMapper;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -27,5 +28,10 @@ public class SysManageServiceImpl implements SysManageService {
         map.put("code", code);
         map.put("length",len + 3);
         return blogClassificationMapper.queryMaxSiblingCode(map);
+    }
+
+    @Override
+    public List<ArticalClassification> getAllNodes() {
+        return blogClassificationMapper.selectAllNodes();
     }
 }
