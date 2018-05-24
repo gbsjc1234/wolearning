@@ -8,7 +8,7 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 
 
 @SpringBootApplication
-@MapperScan("top.wolearning.mapper")
+@MapperScan(basePackages = {"top.wolearning.mapper","top.wolearning.areas.sysManage.mapper"})
 public class WoLearningApplication extends SpringBootServletInitializer {
     public static void main(String[] args) {
         System.out.print("-------------开始启动程序了----------");

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="top.wolearning.areas.sysManage.mapper.mysql.BlogClassificationMapper" >
+    <resultMap id="articalClassification" type="top.wolearning.areas.sysManage.entity.ArticalClassification"
+               extends="baseEntityMap"
+    >
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="code" property="code" jdbcType="VARCHAR" />
+    </resultMap>
+    <resultMap id="baseEntityMap" type="top.wolearning.entity.BaseEntity">
+        <result column="refid" property="refid" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="create_refid" property="createRefid" jdbcType="VARCHAR" />
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+        <result column="modify_refid" property="modifyRefid" jdbcType="VARCHAR" />
+        <result column="deleted" property="deleted" jdbcType="BIT" />
+        <result column="version" property="version" jdbcType="TINYINT" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        refid, create_time, create_refid, modify_time, modify_refid, deleted, version,name, code
+    </sql>
+
+
+    <insert id="insertNodeToTree"
+            parameterType="top.wolearning.areas.sysManage.entity.ArticalClassification">
+        insert into article_type (
+        <include refid="Base_Column_List"/>
+        ) VALUES
+        (
+          #{refid}, #{createTime}, #{createRefid},#{modifyTime} , #{modifyRefid}, 0, 1,
+          #{name}, #{code}
+        )
+    </insert>
+    <select id="queryMaxSiblingCode" resultType="java.lang.String">
+        select max(code) from article_type where code like concat(#{code}, '%')
+        and LENGTH(code) = #{length}
+    </select>
+
+    <select id="selectAllNodes" resultMap="articalClassification">
+        select * from article_type WHERE
+        deleted  = 0
+    </select>
+
+</mapper>

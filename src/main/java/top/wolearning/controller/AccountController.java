@@ -1,13 +1,19 @@
 package top.wolearning.controller;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import top.wolearning.entity.ErrorEnum;
 import top.wolearning.entity.ResultObj;
 import top.wolearning.entity.UserAccount;
 import top.wolearning.services.UserAccountService;
 import top.wolearning.utils.EncodeAndUUID;
 
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/userAccount")
@@ -231,6 +237,25 @@ public class AccountController {
             resultObj.setData(errorInfo);
         }
 
+        return resultObj;
+    }
+
+    @PostMapping("/login")
+    public ResultObj login(String username, String password) {
+        ResultObj resultObj = new ResultObj();
+        if (username.equals("admin") && password.equals("111111")) {
+            String token = Jwts.builder().setSubject("admin")
+                    .setExpiration(new Date(System.currentTimeMillis()+ 30*60*1000))
+                    .signWith(SignatureAlgorithm.HS512, "JWTSecret").compact();
+            resultObj.setCode(ErrorEnum.OK.getCode());
+            Map<String,String> dataMap = new HashMap<String,String>();
+            dataMap.put("token", token);
+            resultObj.setData(dataMap);
+            resultObj.setMessage("token");
+        } else {
+            resultObj.setCode(ErrorEnum.ERROR_GET_LIST.getCode());
+            resultObj.setMessage("登陆失败");
+        }
         return resultObj;
     }
 }

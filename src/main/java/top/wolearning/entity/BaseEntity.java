@@ -1,6 +1,8 @@
 package top.wolearning.entity;
 
+import com.mysql.jdbc.StringUtils;
 import java.sql.Timestamp;
+import static top.wolearning.utils.EncodeAndUUID.getUUID;
 
 public class BaseEntity {
     private String refid;
@@ -12,7 +14,12 @@ public class BaseEntity {
     private Integer version;
 
     public String getRefid() {
-        return refid;
+        if (StringUtils.isNullOrEmpty(this.refid)) {
+            return  getUUID();
+        }
+        else {
+            return refid;
+        }
     }
 
     public void setRefid(String refid) {
@@ -20,7 +27,12 @@ public class BaseEntity {
     }
 
     public Timestamp getCreateTime() {
-        return createTime;
+        if (this.createTime==null) {
+            return new Timestamp(System.currentTimeMillis());
+        }
+        else {
+            return createTime;
+        }
     }
 
     public void setCreateTime(Timestamp createTime) {
@@ -36,6 +48,9 @@ public class BaseEntity {
     }
 
     public Timestamp getModifyTime() {
+        if (this.modifyTime==null) {
+            return new Timestamp(System.currentTimeMillis());
+        }
         return modifyTime;
     }
 
