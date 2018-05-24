@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="top.wolearning.areas.userManage.mapper.mysql.UserQueryMapper">
+    <resultMap id="userResultMap" type="top.wolearning.entity.UserAccount">
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="role" property="role" jdbcType="VARCHAR" />
+        <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+        <result column="authority" property="authority" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+        <result column="deleted" property="deleted" jdbcType="BIT" />
+    </resultMap>
+
+    <sql id="column_list">
+        name, role, nick_name, authority, create_time, modify_time, deleted
+    </sql>
+
+    <select id="select_by_condition" resultMap="userResultMap">
+        select <include refid="column_list" />
+        from user_account
+        where  1=1
+            <if test="conditions.name != null and conditions.name != '' ">
+                and name = #{conditions.name}
+            </if>
+            <if test="conditions.start != null">
+                and create_time &gt;= #{conditions.start}
+            </if>
+            <if test="conditions.end != null">
+                and create_time &lt;= #{conditions.end}
+            </if>
+            <if test="conditions.isDeleted != null">
+                and deleted = #{conditions.isDeleted}
+            </if>
+            <if test="conditions.isDeleted == null">
+                and deleted = 0
+            </if>
+    </select>
+
+    <select id="select_total_number" resultMap="java.lang.Integer" parameterType="top.wolearning.areas.userManage.entity.UserQueryConditions">
+        select count(*) from user_account
+        where  1=1
+        <if test="conditions.name != null and conditions.name != '' ">
+            and name = #{name}
+        </if>
+        <if test="conditions.start != null">
+            and create_time &gt;= #{start}
+        </if>
+        <if test="conditions.end != null">
+            and create_time &lt;= #{end}
+        </if>
+        <if test="conditions.isDeleted != null">
+            and deleted = #{isDeleted}
+        </if>
+        <if test="conditions.isDeleted == null">
+            and deleted = 0
+        </if>
+    </select>
+
+    <update id="delete_by_name" parameterType="java.lang.String">
+        update user_account set deleted = 1 where name = #{name}
+    </update>
+
+    <update id="update_user_account" parameterType="top.wolearning.areas.userManage.entity.UserUpdate">
+        update user_account
+        <set>
+            <if test="nickName != null and nickName != ''">
+                nick_name = #{nickName},
+            </if>
+            <if test="role != null and role != ''">
+                role = #{role},
+            </if>
+            <if test="authority != null and authority != ''">
+                authority = #{authority},
+            </if>
+            <if test="modify_time != null">
+                modify_time = #{modifyTime, jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where name = #{name}
+    </update>
+</mapper>
