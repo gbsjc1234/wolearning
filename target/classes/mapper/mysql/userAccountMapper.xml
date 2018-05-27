@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="top.wolearning.mapper.mysql.UserAccountMapper" >
+  <resultMap id="BaseResultMap" type="top.wolearning.entity.UserAccount"
+    extends="baseEntityMap"
+      >
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="role" property="role" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+    <result column="authority" property="authority" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="baseEntityMap" type="top.wolearning.entity.BaseEntity">
+    <result column="refid" property="refid" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_refid" property="createRefid" jdbcType="VARCHAR" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="modify_refid" property="modifyRefid" jdbcType="VARCHAR" />
+    <result column="deleted" property="deleted" jdbcType="BIT" />
+    <result column="version" property="version" jdbcType="TINYINT" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    refid, create_time, create_refid, modify_time, modify_refid, deleted, version, name, 
+    role, password, nick_name, authority
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_account
+    where refid = #{refid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from user_account
+    where refid = #{refid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="top.wolearning.entity.UserAccount" >
+    insert into user_account (refid, create_time, create_refid, 
+      modify_time, modify_refid, deleted, 
+      version, name, role, 
+      password, nick_name, authority
+      )
+    values (#{refid,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createRefid,jdbcType=VARCHAR}, 
+      #{modifyTime,jdbcType=TIMESTAMP}, #{modifyRefid,jdbcType=VARCHAR}, #{deleted,jdbcType=BIT}, 
+      #{version,jdbcType=TINYINT}, #{name,jdbcType=VARCHAR}, #{role,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, #{authority,jdbcType=VARCHAR}
+      )
+  </insert>
+  <select id="selectByNameAndPassword" parameterType="top.wolearning.entity.UserAccount" resultMap="BaseResultMap">
+    select refid, create_time, create_refid,
+    modify_time, modify_refid, deleted,
+    version, name, role,
+    password, nick_name, authority
+    from user_account where name = #{name} and password = #{password}
+    and deleted = 0
+  </select>
+  <insert id="insertSelective" parameterType="top.wolearning.entity.UserAccount" >
+    insert into user_account
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="refid != null" >
+        refid,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createRefid != null" >
+        create_refid,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+      <if test="modifyRefid != null" >
+        modify_refid,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="role != null" >
+        role,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="nickName != null" >
+        nick_name,
+      </if>
+      <if test="authority != null" >
+        authority,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="refid != null" >
+        #{refid,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createRefid != null" >
+        #{createRefid,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyRefid != null" >
+        #{modifyRefid,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=BIT},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=TINYINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null" >
+        #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="authority != null" >
+        #{authority,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="top.wolearning.entity.UserAccount" >
+    update user_account
+    <set >
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createRefid != null" >
+        create_refid = #{createRefid,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyRefid != null" >
+        modify_refid = #{modifyRefid,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=TINYINT},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null" >
+        role = #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="authority != null" >
+        authority = #{authority,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where refid = #{refid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="top.wolearning.entity.UserAccount" >
+    update user_account
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_refid = #{createRefid,jdbcType=VARCHAR},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      modify_refid = #{modifyRefid,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=BIT},
+      version = #{version,jdbcType=TINYINT},
+      name = #{name,jdbcType=VARCHAR},
+      role = #{role,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      authority = #{authority,jdbcType=VARCHAR}
+    where refid = #{refid,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -22,4 +22,5 @@ public interface UserAccountMapper {
     int updateByPrimaryKey(UserAccount record);
 
     UserAccount selectByNameAndPassword(UserAccount record);
+
 }

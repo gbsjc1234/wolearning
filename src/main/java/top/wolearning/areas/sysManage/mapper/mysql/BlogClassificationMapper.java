@@ -11,4 +11,9 @@ public interface BlogClassificationMapper {
     void insertNodeToTree(ArticalClassification articalClassification);
     String queryMaxSiblingCode(Map map);
     List<ArticalClassification> selectAllNodes();
+    List<ArticalClassification> querySameNameNode(Map map);
+
+    void updateNode(ArticalClassification articalClassification);
+
+    List<ArticalClassification> getChildrenNodes(Map map);
 }

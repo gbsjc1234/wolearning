@@ -1,8 +1,13 @@
 package top.wolearning.entity;
 
 public enum  ErrorEnum {
-    OK("OK", 0), ERROR_INSERT("insert_error", 101),
-    ERROR_GET_LIST("get_list_error", 201);
+    OK("OK", 0),
+    ERROR_INSERT("insert_error", 101),
+    ERROR_UPDATE("update_error", 102),
+    ERROR_GET_LIST("get_list_error", 201),
+    ERROR_HAS_EXIST("has_exist", 202),
+    ERROR_HAS_CHILDREN("has_children", 203),
+    ;
     private String name;
     private int code;
 

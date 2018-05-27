@@ -2,6 +2,7 @@ package top.wolearning.areas.sysManage.controller;
 
 import com.mysql.jdbc.StringUtils;
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import org.apache.logging.log4j.core.impl.ReusableLogEventFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import top.wolearning.areas.sysManage.entity.ArticalClassification;
@@ -20,16 +21,19 @@ public class SysManage {
     @Autowired
     private SysManageService sysManageService;
 
-    @GetMapping("/getClassificationTree")
-    public ResultObj getClassificationTree() {
-        return null;
-    }
-
     @RequestMapping(value = "/addNodeToClassificationTree", method = {RequestMethod.POST})
     @ResponseBody
     public ResultObj addNodeToTree(@RequestParam String parentCode, @RequestParam String name) {
         ResultObj resultObj = new ResultObj();
         try {
+            // 首先检查有没有相同名字的
+            List<ArticalClassification> list = sysManageService.getSameNameNode(parentCode, name);
+            if (list.size()>0) {
+                resultObj.setCode(ErrorEnum.ERROR_HAS_EXIST.getCode());
+                resultObj.setMessage("改节点已经存在，请更换节点名字");
+                return resultObj;
+            }
+
             String siblingMaxCode= sysManageService.getMaxSibling(parentCode);
             String code = parentCode;
             if (siblingMaxCode==null) {
@@ -130,4 +134,59 @@ public class SysManage {
         }
         return resultObj;
     }
+
+    @PostMapping(value="deleteArticleNode")
+    public ResultObj deleteArticalNode(String code) {
+        //首先检查改节点下面是否存在子节点，只有子节点不存在的情况下才可以删除
+        ResultObj resultObj = new ResultObj();
+        try {
+            String maxSibling = sysManageService.getMaxSibling(code);
+            if (maxSibling !=null) {
+                resultObj.setCode(ErrorEnum.ERROR_HAS_CHILDREN.getCode());
+                resultObj.setMessage("改节点存在子节点，请先删除子节点");
+            } else {
+                sysManageService.deleteArticalNode(code);
+                resultObj.setCode(ErrorEnum.OK.getCode());
+                resultObj.setMessage("删除节点成功");
+            }
+        } catch (Exception ex) {
+            resultObj.setCode(ErrorEnum.ERROR_UPDATE.getCode());
+            resultObj.setMessage("删除节点失败");
+            resultObj.setData(ex.toString());
+        }
+        return resultObj;
+    }
+
+    @PostMapping(value="alterNode")
+    public ResultObj alterArticalNode(String code, String name) {
+        ResultObj resultObj = new ResultObj();
+        try {
+            sysManageService.modifyArticalNode(code, name);
+            resultObj.setCode(ErrorEnum.OK.getCode());
+            resultObj.setMessage("修改节点成功");
+        } catch (Exception ex) {
+            resultObj.setCode(ErrorEnum.ERROR_UPDATE.getCode());
+            resultObj.setMessage("修改节点失败");
+            resultObj.setData(ex.toString());
+        }
+        return resultObj;
+    }
+
+    @RequestMapping(value="/getChildrenNodes", method={RequestMethod.GET})
+    @ResponseBody
+    public ResultObj getChildrenNodes(String parentCode) {
+        ResultObj resultObj = new ResultObj();
+        try {
+            List<ArticalClassification> articalClassifications = sysManageService.getChildrenNodes(parentCode);
+            resultObj.setCode(ErrorEnum.OK.getCode());
+            resultObj.setData(articalClassifications);
+            resultObj.setMessage("获取子类成功");
+        } catch (Exception ex) {
+            resultObj.setCode(ErrorEnum.ERROR_GET_LIST.getCode());
+            resultObj.setData(ex.toString());
+            resultObj.setMessage("获取子类失败");
+        }
+        return resultObj;
+    }
+
 }
